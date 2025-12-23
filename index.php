@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/src/Entity/Users.php';
 
-$user = new Users()
+$user = new Users();
 do{
 echo "========= LOGIN =============\n";
 echo "Entrer  email : ";
