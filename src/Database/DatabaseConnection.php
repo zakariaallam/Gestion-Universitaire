@@ -1,17 +1,20 @@
 <?php
 
-class Database 
+class dbcon 
 {
-    protected PDO $conn;
+    public $conn;
 
-    public function __construct()
+    public function db_connect()
     {
         try{
-        $this->conn = new PDO('pgsql:host=postgres;dbname=Universitaire;','root','root123');
+        $this->conn = new PDO('mysql:host=localhost;dbname=testprojet;','root','');
         $this->conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        // echo 'success';
-        }catch(PDOException $e){
-            echo new Exception('connexion Filed');
+        echo "connexion";
+        return $this->conn;
+      }catch(PDOException $e){
+            echo "error connexion" .$e->getMessage();
         }
     }
 }
+$db = new dbcon();
+echo $db->db_connect();

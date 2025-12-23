@@ -1,16 +1,23 @@
 <?php
-require_once __DIR__ . '/../Database/DatabaseConnection.php';
-class Users 
-{
-   protected string $email;
-   protected string $password;
-   protected string $role;
+   require_once __DIR__ . '/../Database/DatabaseConnection.php';
 
-   public function __construct($email,$password,$role)
+   class users
    {
-    $this->email = $email;
-    $this->password = $password;
-    $this->role = $role;
+      private string $email;
+      private string $password;
+      private string $role;
+   public function __construct(string $email,string $password,string $role){
+      $this->email = $email;
+      $this->password = password_hash($password,PASSWORD_DEFAULT);
+      $this->role = $role;
    }
-
-}
+   public function getemail():string{
+      return $this->email;
+   }
+   public function getrole():string{
+      return $this->role;
+   }
+   public function virifierpass(string $password):string{
+     return password_verify($password,$this->password);
+   }
+   }
