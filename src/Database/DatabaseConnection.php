@@ -1,20 +1,16 @@
 <?php
 
-class dbcon 
+class Database 
 {
-    public $conn;
+    protected PDO $conn;
 
-    public function db_connect()
+    public function __construct()
     {
         try{
-        $this->conn = new PDO('mysql:host=localhost;dbname=testprojet;','root','');
+        $this->conn = new PDO('mysql:host=localhost;dbname=university_app','root','');
         $this->conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        echo "connexion";
-        return $this->conn;
-      }catch(PDOException $e){
-            echo "error connexion" .$e->getMessage();
+        }catch(PDOException $e){
+            throw new Exception('Connexion Failed: '.$e->getMessage());
         }
     }
 }
-$db = new dbcon();
-echo $db->db_connect();

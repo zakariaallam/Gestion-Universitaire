@@ -2,20 +2,12 @@
 
 abstract class Person
 {
-    protected string $name;
-    protected string $email;
-    
-    public function __construct(string $name,string $email){
-        $this->name = $name;
-        $this->email = $email;
-    }
-    public function getname(){
-        return $this->name;
-    }
-     public function getemail(){
-        return $this->email;
-    }
-    
+    protected string $firstname;
+    protected string $lastname;
 
-    
+    public function __construct(string $firstname, string $lastname)
+    {
+        $this->firstname = $firstname;
+        $this->lastname  = $lastname;
+    }
 }
