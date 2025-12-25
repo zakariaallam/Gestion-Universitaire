@@ -5,8 +5,25 @@
     require 'src/Entity/Users.php';
     require_once __DIR__ .'/src/Abstract/Person.php';
 
-    $user = new Users();
-    $email = 'yassir@gmail.com';
-    $chekuse = $user->getByColumn($email,'email');
-    var_dump($chekuse);
+$user = new Users();
+
+do{
+    echo "========= LOGIN =============\n";
+    echo "Entrer  email : ";
+    $email = trim(fgets(STDIN));
+    echo "Enter Password : ";
+    $password = trim(fgets(STDIN));
+    $userdata = $user->getByColumn($email,'email');
+    if (!$userdata) {
+        echo "incorect";
+    }
+    var_dump($userdata);
+     if ( $password !== $userdata['password']) {
+        echo "Mot de passe incorrect. Réessayez.\n";
+    }
+
+     $role = $userdata['role'];
+    echo "Bienvenue " . $userdata['username'];
+    break;
+}while(true);
  
