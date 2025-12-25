@@ -11,7 +11,7 @@ class Database
         $this->conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         // echo 'success';
         }catch(PDOException $e){
-            echo new Exception('connexion Filed');
+            throw new Exception('connexion Filed');
         }
     }
 }
