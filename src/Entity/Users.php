@@ -6,11 +6,10 @@ require_once __DIR__ . '/../Abstract/Person.php';
 class Users extends Person
 {
     protected string $tableName = 'users';
+    protected string $username;
+    protected string $password;
 
-    public function __construct(
-        string $firstname = '',
-        string $lastname = ''
-    ) {
-        parent::__construct($firstname, $lastname);
+    public function __construct(string $username, string $password) {
+        parent::__construct($firstname, $lastname,$email);
     }
 }

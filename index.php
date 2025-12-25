@@ -25,5 +25,6 @@ do{
      $role = $userdata['role'];
     echo "Bienvenue " . $userdata['username'];
     break;
-}while(true);
+}while($userdata['password']!=$password);
+
  

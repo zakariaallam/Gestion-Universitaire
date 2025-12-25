@@ -8,19 +8,43 @@ abstract class Person
 
     public function __construct(string $firstname, string $lastname,string $email)
     {
-        $this->setName($firstname);
-        $this->setName($lastname);
-        $this->setEmail($email);
+        $this->firstname = $firstname;
+        $this->lastname = $lastname;
+        $this->email = $email;
     }
 
-    public function setName(string $name): void
-    {   
-        $this->name = $name;
-    }
 
-    public function getName(): string
+    public function getFirstname()
     {
-        return $this->name;
+        return $this->firstname;
     }
 
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+    }
+
+
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+    }
+
+   
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
 }
