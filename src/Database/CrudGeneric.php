@@ -2,7 +2,7 @@
  require_once __DIR__ . '/DatabaseConnection.php';
 class CrudGeneric extends Database
 {
-    public string $tableName;
+    private string $tableName;
 
     public function getAll(){
         $sql = "SELECT * FROM $this->tableName";
@@ -51,5 +51,15 @@ class CrudGeneric extends Database
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam("id",$id);
         $stmt->execute();
+    }
+
+    public function getTableName()
+    {
+        return $this->tableName;
+    }
+
+    public function setTableName($tableName)
+    {
+        $this->tableName = $tableName;
     }
 }

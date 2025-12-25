@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../Database/CrudGeneric.php';
 
-class Department extends CrudGeneric
+class Department
 {
     
     protected string $tableName = 'departement';
