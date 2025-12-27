@@ -4,16 +4,16 @@ class CourseService
 {
    private CourseRepository $courseRepo;
 
-   public function __construct()
+   public function __construct(CourseRepository $courseRepo)
    {
-    $this->courseRepo = new CourseRepository();
+    $this->courseRepo = $courseRepo;
    }
  
    public function CreateCourse($name,$nameDep,$idDep){
        if(empty($name)) throw new Exception('name is empty');
        if(empty($nameDep)) throw new Exception('name department is empty');
         $data['name'] = $name;
-        $data['department_id'] = $idDep;
+        $data['departments_id'] = $idDep;
 
        $this->courseRepo->Create($data);
    }
@@ -28,7 +28,7 @@ class CourseService
     if(empty($name)) throw new Exception('name is empty');
        if(empty($nameDep)) throw new Exception('name department is empty');
     $data['name'] = $name;
-    $data['epartment_id'] = $idDep;
+    $data['departments_id'] = $idDep;
     $this->courseRepo->Update($data,$cID,"id");
 
    }

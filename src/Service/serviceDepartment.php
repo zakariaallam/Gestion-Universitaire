@@ -4,7 +4,7 @@ class ServiceDepartment
 {
     private Department $Department;
 
-    public function __construct($Department)
+    public function __construct(Department $Department)
     {
         $this->Department = $Department;
     }

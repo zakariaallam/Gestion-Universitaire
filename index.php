@@ -18,7 +18,8 @@ do {
     $email = trim(fgets(STDIN));
     echo "Enter Password : ";
     $pass = trim(fgets(STDIN));
-    $user = new UserService(new UserRepository);
+    $userrepo = new UserRepository();
+    $user = new UserService($userrepo);
     global $user;
     try {
         $Auth = $user->Login($email,$pass);
@@ -104,7 +105,8 @@ if ($Auth['role'] == 'admin') {
 
                 do {
                     $cours = new Course();
-                    $couresServ = new CourseService;
+                    $courseRepo = new CourseRepository();
+                    $couresServ = new CourseService($courseRepo);
                     $choi = menu($cours->getTableName());
                     switch ($choi) {
                         default:
@@ -123,7 +125,7 @@ if ($Auth['role'] == 'admin') {
                         case 2:
                             echo 'Entre id de course que vous modifier : ';
                             $cID = trim(fgets(STDIN));
-                            $result = $dep->getRow($cID,'id');
+                            $result = $cours->getRow($cID,'id');
                             if(!$result){
                                 echo "je n'ai trouvé ce course \n\n";
                                 break;
@@ -138,11 +140,11 @@ if ($Auth['role'] == 'admin') {
                             echo "\n\n Update success \n\n";
                             break;
                         case 3:
-                            echo 'Entre id de department que vous Delete : ';
+                            echo 'Entre id de course que vous supprimer : ';
                             $cID = trim(fgets(STDIN));
-                            $result = $dep->getRow($cID,'id');
+                            $result = $cours->getRow($cID,'id');
                             if(!$result){
-                                echo "je n'ai trouvé ce department \n\n";
+                                echo "je n'ai trouvé ce cours \n\n";
                                 break;
                             }
                             $cours->Delete($cID,'id');
@@ -159,7 +161,8 @@ if ($Auth['role'] == 'admin') {
                 break;
             case 3:
                 do {
-                                $formateur = new FormateurService(new FormateurRepository);
+                                $formateurRepo = new FormateurRepository();
+                                $formateur = new FormateurService($formateurRepo);
                                 global $formateur;
                                 $choi = menu('formateur');
                                 switch ($choi) {
@@ -228,4 +231,7 @@ if ($Auth['role'] == 'admin') {
                 break;
         }
     } while ($choi != 0);
+}
+else{
+    
 }
