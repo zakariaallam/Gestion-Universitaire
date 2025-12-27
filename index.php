@@ -1,3 +1,4 @@
+
 <?php
 require_once __DIR__ . '/src/Entity/Users.php';
 require_once __DIR__ . '/src/Entity/Department.php';
@@ -30,7 +31,7 @@ do {
     }
 } while ($Auth['password'] != $pass);
 
-if ($Auth['role'] == 'Admin') {
+if ($Auth['role'] == 'admin') {
     do {
         echo "=========== HLLOW $email =============\n";
         echo "1 : Gérer les départements\n";

@@ -7,9 +7,8 @@ class Database
     public function __construct()
     {
         try{
-        $this->conn = new PDO('pgsql:host=postgres;dbname=Universitaire;','root','root123');
+        $this->conn = new PDO('mysql:host=localhost;dbname=university_app','root','');
         $this->conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        // echo 'success';
         }catch(PDOException $e){
             throw new Exception('connexion Filed');
         }
