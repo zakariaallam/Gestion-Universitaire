@@ -6,8 +6,10 @@ require_once __DIR__ . '/src/Service/serviceDepartment.php';
 require_once __DIR__ . '/src/Service/UserService.php';
 require_once __DIR__ . '/src/Service/FormateurService.php';
 require_once __DIR__ . '/src/Service/CourseService.php';
+require_once __DIR__ . '/src/Service/EtudiantService.php';
 require_once __DIR__ . '/src/Entity/Course.php';
 require_once __DIR__ . '/src/Entity/Fourmateurs.php';
+require_once __DIR__ . '/src/Entity/Etudiant.php';
 require_once __DIR__ . '/menu.php';
 
 $userrepo = new UserRepository();
@@ -39,8 +41,8 @@ if ($Auth['role'] == 'admin') {
         echo "1 : Gérer les départements\n";
         echo "2 : Gérer les cours\n";
         echo "3 : Gérer les formateurs\n";
-        echo "4 : Affecter un formateur à un cours\n";
-        echo "5 : Consulter les listes\n";
+        echo "4 : Gérer les etudiant\n";
+        echo "5 : Affecter un formateur à un cours\n";
         echo "0 : pour Exite\n\n";
         echo 'Entrer votre choi : ';
         $choi = trim(fgets(STDIN));
@@ -240,6 +242,83 @@ if ($Auth['role'] == 'admin') {
                             } while ($choi != 5);
                 break;
             case 4:
+                  do {
+                              
+                                $etudiantRepo = new EtudiantRepository();
+                                $etudiant = new EtudiantService($etudiantRepo);
+                                global $etudiant;
+                                $choi = menu('etudiant');
+                                switch ($choi) {
+                                    default:
+                                        'Entrer nuber between 1 et 4';
+                                        break;
+                                    case 1:
+                                        echo 'Enter le firstname de etudiant : ';
+                                        $firstname = trim(fgets(STDIN));
+                                        echo 'Enter le lastname de etudiant : ';
+                                        $lastname = trim(fgets(STDIN));
+                                        echo 'Enter email de etudiant : ';  
+                                        $email = trim(fgets(STDIN));
+                                        echo 'Enter le age de etudiant : ';
+                                        $age = trim(fgets(STDIN));
+                                        echo 'Enter paswword de etudiant : ';
+                                        $password = trim(fgets(STDIN));
+                                        echo 'Enter le classe name de etudiant : ';
+                                        $classename = trim(fgets(STDIN));
+                                        $role = 'etudiant';
+                                        $user->Createuser($firstname,$lastname,$age,$email,$password,$role);
+                                        $userid = $userrepo->findByemail($email);
+                                        $etudiant->CreateEtudiant($userid,$classename);
+                                        echo "\n\n Creation success \n\n";
+                                        break;
+                                    case 2:
+                                        
+                                                echo 'entrer email de etudiant qui veux modifier : ';
+                                                $emailetud = trim(fgets(STDIN));
+                                                $etudmaid = $userrepo->findByemail($emailetud);
+                                                var_dump($etudmaid);
+                                                if(!$etudmaid){
+                                                    echo "je n'ai trouvé etudiant";
+                                                    break;
+                                                }
+                                                echo 'Enter le firstname de etudiant : ';
+                                                $firstname = trim(fgets(STDIN));
+                                                echo 'Enter le lastname de etudiant : ';
+                                                $lastname = trim(fgets(STDIN));
+                                                echo 'Enter le age de etudiant : ';
+                                                $age = trim(fgets(STDIN));
+                                                echo 'Enter le classe de etudiant : ';
+                                                $nameclasse = trim(fgets(STDIN));
+                                                $data = [];
+                                                $data['firtname'] = $firstname;
+                                                $data['lastname'] = $lastname;
+                                                $data['age'] = $age;
+                                                $etud['nameclass'] = $nameclasse;
+                                                $userrepo->Update($data,$emailetud,'email');
+                                                $etudiantRepo->Update($etud,$etudmaid,'user_id');
+                                                echo "\n\n update succef \n\n";
+
+                                                
+                                        break;
+                                    case 3:
+                                         echo 'entrer email de etudiant : ';
+                                                $emailetu = trim(fgets(STDIN));
+                                                $etudmaid = $userrepo->findByemail($emailetu);
+                                                if(!$etudmaid){
+                                                    echo "je n'ai trouvé etudiant avec ce nom ";
+                                                    break;
+                                                }
+                                                $userrepo->Delete($emailetu,'email');
+                                                echo "\n\n delete success\n \n";
+                                        break;
+                                    case 4:
+                                        $result = $etudiantRepo->getetudiant();
+                                        var_dump($result);
+                                        break;
+                                    case 5:
+                                        break;
+                                }
+                            } while ($choi != 5);
                 break;
             case 5:
                 break;
@@ -248,11 +327,4 @@ if ($Auth['role'] == 'admin') {
                 break;
         }
     } while ($choi != 0);
-}
-else{
-    echo "=========== HLLOW $email =============\n";
-        echo "1 : la liste des étudiants\n";
-        echo "2 : consulter les cours par département\n";
-        echo 'Entrer votre choi : ';
-        $choix = trim(fgets(STDIN));
 }
