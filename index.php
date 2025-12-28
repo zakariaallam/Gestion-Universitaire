@@ -193,13 +193,13 @@ if ($Auth['role'] == 'admin') {
                                     case 2:
                                         
                                                 echo 'entrer email de formateur qui veux modifier : ';
-                                                $id = trim(fgets(STDIN));
-                                                $result = $user->getRow($id,'id');
-                                                if(!$result){
+                                                $emailuse = trim(fgets(STDIN));
+                                                $formaid = $userrepo->findByemail($emailuse);
+                                                var_dump($formaid);
+                                                if(!$formaid){
                                                     echo "je n'ai trouvé formateur";
                                                     break;
                                                 }
-                                                $person ;
                                                 echo 'Enter le firstname de formateur : ';
                                                 $firstname = trim(fgets(STDIN));
                                                 echo 'Enter le lastname de formateur : ';
@@ -209,24 +209,26 @@ if ($Auth['role'] == 'admin') {
                                                 echo 'Enter le specialité de formateur : ';
                                                 $special = trim(fgets(STDIN));
                                                 $data = [];
-                                                $data['firstname'] = $firstname;
-                                                $data['lastname'] = $lastname; 
-                                                $data['age'] = $firstname;
-                                                $data['specialty'] = $special;
-                                                $formateur->Update($data,$id,'id');
-                                               
-                                        
+                                                $data['firtname'] = $firstname;
+                                                $data['lastname'] = $lastname;
+                                                $data['age'] = $age;
+                                                $forma['speciality'] = $special;
+                                                $userrepo->Update($data,$emailuse,'email');
+                                                $formateurRepo->Update($forma,$formaid,'user_id');
+                                                echo "\n\nupdate succef\n\n";
+
+                                                
                                         break;
                                     case 3:
-                                         echo 'entrer id de formateur : ';
-                                                $id = trim(fgets(STDIN));
-                                                $format = $formateur->getRow($id,'id');
-                                                if(!$format){
+                                         echo 'entrer email de formateur : ';
+                                                $emailfor = trim(fgets(STDIN));
+                                                $formaid = $userrepo->findByemail($emailfor);
+                                                if(!$formaid){
                                                     echo "je n'ai trouvé formateur avec ce nom ";
                                                     break;
                                                 }
-                                                $formateur->Delete($id,'id');
-                                                echo "\n delete success\n";
+                                                $userrepo->Delete($emailfor,'email');
+                                                echo "\n\n delete success\n \n";
                                         break;
                                     case 4:
                                         $result = $formateurRepo->getformateur();
