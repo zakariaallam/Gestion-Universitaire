@@ -9,6 +9,7 @@ class CrudGeneric extends Database
         $stmt = $this->conn->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
     public function getRow($name,$PK){
        $sql = "SELECT * FROM $this->tableName WHERE $PK = :$PK";
        $stmt = $this->conn->prepare($sql);
@@ -50,4 +51,6 @@ class CrudGeneric extends Database
         $stmt->bindParam("$PK",$value);
         $stmt->execute();
     }
+    
+
 }

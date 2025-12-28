@@ -10,12 +10,7 @@ class FormateurService
         $this->formateurRepo = $formateurRepo;
     }
 
-    public function CreateFormateur($Fname,$Lname,$age,$specialete){
-        if(strlen($Fname)<3 || $age<0 ) throw new Exception('erreur');
-        $this->formateurRepo->Create(['first_name'=>$Fname,'last_name'=>$Lname,'age'=> 45 , 'specialite'=>$specialete]);
-    }
-
-    public function geteAllFormateur(){
-       return $this->formateurRepo->getAll();
+    public function CreateFormateur($userid,$specialete){
+        $this->formateurRepo->Create([ 'user_id'=> $userid, 'speciality'=>$specialete]);
     }
 }

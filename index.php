@@ -9,6 +9,9 @@ require_once __DIR__ . '/src/Service/CourseService.php';
 require_once __DIR__ . '/src/Entity/Course.php';
 require_once __DIR__ . '/src/Entity/Fourmateurs.php';
 require_once __DIR__ . '/menu.php';
+
+$userrepo = new UserRepository();
+$user = new UserService($userrepo);
 $data = [];
 global $data;
 do {
@@ -18,8 +21,6 @@ do {
     $email = trim(fgets(STDIN));
     echo "Enter Password : ";
     $pass = trim(fgets(STDIN));
-    $userrepo = new UserRepository();
-    $user = new UserService($userrepo);
     global $user;
     try {
         $Auth = $user->Login($email,$pass);
@@ -161,60 +162,74 @@ if ($Auth['role'] == 'admin') {
                 break;
             case 3:
                 do {
+                              
                                 $formateurRepo = new FormateurRepository();
                                 $formateur = new FormateurService($formateurRepo);
                                 global $formateur;
                                 $choi = menu('formateur');
                                 switch ($choi) {
                                     default:
-                                        'Entrer nuber between 0 et 4';
+                                        'Entrer nuber between 1 et 4';
                                         break;
                                     case 1:
                                         echo 'Enter le firstname de formateur : ';
                                         $firstname = trim(fgets(STDIN));
                                         echo 'Enter le lastname de formateur : ';
                                         $lastname = trim(fgets(STDIN));
+                                        echo 'Enter email de formateur : ';  
+                                        $email = trim(fgets(STDIN));
                                         echo 'Enter le age de formateur : ';
                                         $age = trim(fgets(STDIN));
+                                        echo 'Enter paswword de formateur : ';
+                                        $password = trim(fgets(STDIN));
                                         echo 'Enter le specialité de formateur : ';
                                         $special = trim(fgets(STDIN));
-                                        $formateur->CreateFormateur($firstname,$lastname,$age,$special);
+                                        $role = 'formateur';
+                                        $user->Createuser($firstname,$lastname,$age,$email,$password,$role);
+                                        $userid = $userrepo->findByemail($email);
+                                        $formateur->CreateFormateur($userid,$special);
                                         echo "\n\n Creation success \n\n";
                                         break;
                                     case 2:
                                         
-                                                echo 'entrer id de formateur qui veux modifier : ';
+                                                echo 'entrer email de formateur qui veux modifier : ';
                                                 $id = trim(fgets(STDIN));
-                                                $result = $formateur->getRow($id,'id');
+                                                $result = $user->getRow($id,'id');
                                                 if(!$result){
-                                                    echo "je n'ai trouvé formateur avec ce nom ";
+                                                    echo "je n'ai trouvé formateur";
                                                     break;
                                                 }
                                                 $person ;
-                                                echo 'Enter le nouvell email : ';
-                                                $nEmail = trim(fgets(STDIN));
-                                                echo 'Enter le nouvell password : ';
-                                                $nPass = trim(fgets(STDIN));
+                                                echo 'Enter le firstname de formateur : ';
+                                                $firstname = trim(fgets(STDIN));
+                                                echo 'Enter le lastname de formateur : ';
+                                                $lastname = trim(fgets(STDIN));
+                                                echo 'Enter le age de formateur : ';
+                                                $age = trim(fgets(STDIN));
+                                                echo 'Enter le specialité de formateur : ';
+                                                $special = trim(fgets(STDIN));
                                                 $data = [];
-                                                $data['email'] = $nEmail;
-                                                $data['password'] = $nPass;
-                                                $user->Update($data,$id,'id');
+                                                $data['firstname'] = $firstname;
+                                                $data['lastname'] = $lastname; 
+                                                $data['age'] = $firstname;
+                                                $data['specialty'] = $special;
+                                                $formateur->Update($data,$id,'id');
                                                
                                         
                                         break;
                                     case 3:
-                                         echo 'entrer email de formateur : ';
-                                                $email = trim(fgets(STDIN));
-                                                $formateur = $user->getRow($email,'email');
-                                                if(!$formateur){
+                                         echo 'entrer id de formateur : ';
+                                                $id = trim(fgets(STDIN));
+                                                $format = $formateur->getRow($id,'id');
+                                                if(!$format){
                                                     echo "je n'ai trouvé formateur avec ce nom ";
                                                     break;
                                                 }
-                                                $user->Delete($email,'email');
+                                                $formateur->Delete($id,'id');
                                                 echo "\n delete success\n";
                                         break;
                                     case 4:
-                                        $result = $formateur->geteAllFormateur();
+                                        $result = $formateurRepo->getformateur();
                                         var_dump($result);
                                         break;
                                     case 5:
@@ -233,5 +248,9 @@ if ($Auth['role'] == 'admin') {
     } while ($choi != 0);
 }
 else{
-    
+    echo "=========== HLLOW $email =============\n";
+        echo "1 : la liste des étudiants\n";
+        echo "2 : consulter les cours par département\n";
+        echo 'Entrer votre choi : ';
+        $choix = trim(fgets(STDIN));
 }
