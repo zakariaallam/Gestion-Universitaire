@@ -328,3 +328,48 @@ if ($Auth['role'] == 'admin') {
         }
     } while ($choi != 0);
 }
+else if ($Auth['role'] == 'etudiant') {
+    do {
+         
+    
+    echo "=========== HLLOW {$Auth['firtname']} =============\n";
+    echo "1 : La liste tudiants\n";
+    echo "2 :  la liste de les courses\n";
+    echo "3 :  back\n";
+    echo "0 :  pour exite\n";
+    echo 'Entrer votre choix : ';
+    $choix = trim(fgets(STDIN));
+
+    switch ($choix) {
+        case 1:
+             $etudiantRepo = new EtudiantRepository();
+             $etudiant = new EtudiantService($etudiantRepo); 
+             $result = $etudiantRepo->getetudiant();
+            foreach ($result as $etudiant) {
+                echo "id: {$etudiant['id']} \n Nom: {$etudiant['firtname']} \n {$etudiant['lastname']} \n Email: {$etudiant['email']} \n Age: {$etudiant['age']} \n classe: {$etudiant['nameclass']}\n\n\n";
+            }
+            break;
+
+        case 2:
+            $course = new Course();
+            $courseRepo = new CourseRepository();
+            $couresServ = new CourseService($courseRepo);
+            $courses = $courseRepo->getcouses();
+            foreach ($courses as $row) {
+                echo "ID du cours: " . $row['id'] . "\n";
+                echo "Nom du cours: " . $row['course_name'] . "\n";
+                echo "Nom du département: " . $row['department_name'] . "\n";
+                echo "-------------------------\n";
+            }
+            break;
+              case 3:
+                    break;
+          case 0:
+                echo "\nExit";
+                break;
+        default:
+            echo "Choix invalide.\n";
+            break;
+    }
+ } while ($choix !=0);
+}
